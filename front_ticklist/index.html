@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ticklist</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+    <h1>Welcome to the Ticklist</h1>
+      <form class="user-form">
+        <input type="text" name="username" placeholder="Please enter your name.">
+        <input id="search-user=btn" type="submit" name="submit-btn" value="Search User">
+        <p id="user-error"></p>
+      </form>
+    <div class="add-climb-btn">
+      <button type="button" name="add-new" id="add-climb">Add a new climb.</button>
+    </div>
+      <!-- show climbs -->
+      <section id="climb-header">
+        <section id="climbs">
+          <!-- show ticked climbs -->
+          <div class="ticked-table">
+            <h2 id="ticked-header">Ticked Climbs</h2>
+              <table class="table">
+                <thead>
+                  <th>Name</th>
+                  <th>Your Rating</th>
+                  <th>Guidebook Rating</th>
+                  <th>Type</th>
+                  <th>Stars</th>
+                  <th>Pitches</th>
+                  <th>Comments</th>
+                  <th>Link</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </thead>
+                <tbody id="ticked-list">
+
+                </tbody>
+              </table>
+            </div>
+            <!-- Show unticked climbs -->
+          <div class="unticked-table">
+            <h2 id="ticked-header">Unticked Climbs</h2>
+            <table class="table">
+              <thead>
+                <th>Name</th>
+                <th>Guidebook Rating</th>
+                <th>Type</th>
+                <th>Pitches</th>
+                <th>Link</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </thead>
+              <tbody id="unticked-list">
+
+              </tbody>
+            </table>
+          </div>
+          </section>
+      </section>
+
+
+        <!-- new climb form -->
+        <div id="new-climb-container">
+          <form id="new-climb-form">
+            <label for="name">Name</label>
+              <input type="text" name="name">
+            <label for="user_rating">Your Rating</label>
+              <select name="user_rating">
+                <option value="5.4">5.4</option>
+                <option value="5.5">5.5</option>
+                <option value="5.6">5.6</option>
+                <option value="5.7">5.7</option>
+                <option value="5.8">5.8</option>
+                <option value="5.9">5.9</option>
+                <option value="5.10a">5.10a</option>
+                <option value="5.10b">5.10b</option>
+                <option value="5.10c">5.10c</option>
+                <option value="5.10d">5.10d</option>
+                <option value="5.11a">5.11a</option>
+                <option value="5.11b">5.11b</option>
+                <option value="5.11c">5.11c</option>
+                <option value="5.11d">5.11d</option>
+                <option value="5.12a">5.12a</option>
+                <option value="5.12b">5.12b</option>
+                <option value="5.12c">5.12c</option>
+                <option value="5.12d">5.12d</option>
+                <option value="5.13a">5.13a</option>
+                <option value="5.13b">5.13b</option>
+                <option value="5.13c">5.13c</option>
+                <option value="5.13d">5.13d</option>
+                <option value="5.14a">5.14a</option>
+                <option value="5.14b">5.14b</option>
+                <option value="5.14c">5.14c</option>
+                <option value="5.14d">5.14d</option>
+                <option value="5.15a">5.15a</option>
+                <option value="5.15b">5.15b</option>
+              </select>
+            <label for="guide_rating">Guidebook Rating</label>
+              <select name="guide_rating">
+                <option value="5.4">5.4</option>
+                <option value="5.5">5.5</option>
+                <option value="5.6">5.6</option>
+                <option value="5.7">5.7</option>
+                <option value="5.8">5.8</option>
+                <option value="5.9">5.9</option>
+                <option value="5.10a">5.10a</option>
+                <option value="5.10b">5.10b</option>
+                <option value="5.10c">5.10c</option>
+                <option value="5.10d">5.10d</option>
+                <option value="5.11a">5.11a</option>
+                <option value="5.11b">5.11b</option>
+                <option value="5.11c">5.11c</option>
+                <option value="5.11d">5.11d</option>
+                <option value="5.12a">5.12a</option>
+                <option value="5.12b">5.12b</option>
+                <option value="5.12c">5.12c</option>
+                <option value="5.12d">5.12d</option>
+                <option value="5.13a">5.13a</option>
+                <option value="5.13b">5.13b</option>
+                <option value="5.13c">5.13c</option>
+                <option value="5.13d">5.13d</option>
+                <option value="5.14a">5.14a</option>
+                <option value="5.14b">5.14b</option>
+                <option value="5.14c">5.14c</option>
+                <option value="5.14d">5.14d</option>
+                <option value="5.15a">5.15a</option>
+                <option value="5.15b">5.15b</option>
+              </select>
+            <label for="climb_type">Type</label>
+              <select name="climb_type">
+                <option value=""></option>
+                <option value="Sport">Sport</option>
+                <option value="Trad">Trad</option>
+              </select>
+            <label for="stars">Stars</label>
+              <select name="stars">
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            <label for="pitches">Number of Pitches</label>
+              <input type="number" name="pitches" value="1">
+            <label for="comments">Comments</label>
+                <input type="textarea" name="comments">
+            <label for="mp_link">Link</label>
+                <input type="text" name="mp_link">
+            <label for="sent">Sent?</label>
+              <select name="sent">
+                <option value="true">Crushed it!</option>
+                <option value="false">Not yet!</option>
+              </select>
+            <input type="submit" name="add-climb" value="Add New Climb">
+          </form>
+        </div>
+
+        <!-- edit climb form -->
+        <div class"modal" id="edit-climb-container">
+          <form class="modal-content"id="edit-climb-form">
+            <input type="hidden" name="id">
+            <input type="hidden" name="user_id">
+            <label for="name">Name</label>
+              <input type="text" name="name">
+            <label for="user_rating">Your Rating</label>
+              <select name="user_rating">
+                <option value="5.4">5.4</option>
+                <option value="5.5">5.5</option>
+                <option value="5.6">5.6</option>
+                <option value="5.7">5.7</option>
+                <option value="5.8">5.8</option>
+                <option value="5.9">5.9</option>
+                <option value="5.10a">5.10a</option>
+                <option value="5.10b">5.10b</option>
+                <option value="5.10c">5.10c</option>
+                <option value="5.10d">5.10d</option>
+                <option value="5.11a">5.11a</option>
+                <option value="5.11b">5.11b</option>
+                <option value="5.11c">5.11c</option>
+                <option value="5.11d">5.11d</option>
+                <option value="5.12a">5.12a</option>
+                <option value="5.12b">5.12b</option>
+                <option value="5.12c">5.12c</option>
+                <option value="5.12d">5.12d</option>
+                <option value="5.13a">5.13a</option>
+                <option value="5.13b">5.13b</option>
+                <option value="5.13c">5.13c</option>
+                <option value="5.13d">5.13d</option>
+                <option value="5.14a">5.14a</option>
+                <option value="5.14b">5.14b</option>
+                <option value="5.14c">5.14c</option>
+                <option value="5.14d">5.14d</option>
+                <option value="5.15a">5.15a</option>
+                <option value="5.15b">5.15b</option>
+              </select>
+            <label for="guide_rating">Guidebook Rating</label>
+              <select name="guide_rating">
+                <option value="5.4">5.4</option>
+                <option value="5.5">5.5</option>
+                <option value="5.6">5.6</option>
+                <option value="5.7">5.7</option>
+                <option value="5.8">5.8</option>
+                <option value="5.9">5.9</option>
+                <option value="5.10a">5.10a</option>
+                <option value="5.10b">5.10b</option>
+                <option value="5.10c">5.10c</option>
+                <option value="5.10d">5.10d</option>
+                <option value="5.11a">5.11a</option>
+                <option value="5.11b">5.11b</option>
+                <option value="5.11c">5.11c</option>
+                <option value="5.11d">5.11d</option>
+                <option value="5.12a">5.12a</option>
+                <option value="5.12b">5.12b</option>
+                <option value="5.12c">5.12c</option>
+                <option value="5.12d">5.12d</option>
+                <option value="5.13a">5.13a</option>
+                <option value="5.13b">5.13b</option>
+                <option value="5.13c">5.13c</option>
+                <option value="5.13d">5.13d</option>
+                <option value="5.14a">5.14a</option>
+                <option value="5.14b">5.14b</option>
+                <option value="5.14c">5.14c</option>
+                <option value="5.14d">5.14d</option>
+                <option value="5.15a">5.15a</option>
+                <option value="5.15b">5.15b</option>
+              </select>
+            <label for="climb_type">Type</label>
+              <select name="climb_type">
+                <option value="Sport">Sport</option>
+                <option value="Trad">Trad</option>
+              </select>
+            <label for="stars">Stars</label>
+              <select name="stars">
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            <label for="pitches">Number of Pitches</label>
+              <input type="number" name="pitches" value="1">
+            <label for="comments">Comments</label>
+                <input type="textarea" name="comments">
+            <label for="mp_link">Link</label>
+                <input type="text" name="mp_link">
+            <label for="sent">Sent?</label>
+              <select name="sent">
+                <option value="true">Crushed it!</option>
+                <option value="false">Not yet!</option>
+              </select>
+            <input type="submit" name="edit_climb" value="Edit">
+          </form>
+        </div>
+
+    <script type="text/javascript" src="app.js">
+    </script>
+  </body>
+</html>

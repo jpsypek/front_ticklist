@@ -1,0 +1,96 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  background-color: rgba(100, 180, 180, 0.4);
+  height: 100vh;
+}
+
+h1 {
+  font-style: italic;
+  text-align: center;
+  font-size: 130px;
+}
+
+.user-form {
+  width: 100px;
+	height: 100px;
+
+	position: absolute;
+	top:0;
+	bottom: 70%;
+	left: 0;
+	right: 0;
+	margin: auto;
+  text-align: center;
+}
+
+#search-user-btn {
+  text-align: center;
+  position: relative;
+  right: 20%;
+}
+
+.add-climb-btn {
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+  text-align: center;
+}
+
+.unticked-table {
+  position: relative;
+  top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+  text-align: center
+}
+
+.ticked-table {
+  position: relative;
+  top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+  text-align: center
+}
+
+#ticked-header {
+  position: relative;
+  text-align: center;
+}
+#unticked-header {
+  position: relative;
+  text-align: center;
+}
+
+#new-climb-form {
+  position: absolute;
+  text-align: center;
+}
+
+#climb-header {
+  display: none;
+}
+
+#new-climb-container {
+  display: none;
+}
+#edit-climb-container {
+  display: none;
+}
+#user-form-submit {
+  display: none;
+}
+#add-climb {
+  display: none;
+}
+
+.row-hide {
+  display: none;
+}
