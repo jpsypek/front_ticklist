@@ -1,6 +1,9 @@
 * {
   box-sizing: border-box;
 }
+html {
+  background-color: rgba(100, 180, 180, 0.4);
+}
 body {
   background-color: rgba(100, 180, 180, 0.4);
   height: 100vh;
@@ -9,7 +12,6 @@ body {
 h1 {
   font-style: italic;
   text-align: center;
-  font-size: 130px;
 }
 
 .user-form {
@@ -62,11 +64,12 @@ h1 {
 
 #ticked-header {
   position: relative;
-  text-align: center;
+  text-align: left;
+  font-weight: bold;
 }
 #unticked-header {
   position: relative;
-  text-align: center;
+  text-align: left;
 }
 
 #new-climb-form {

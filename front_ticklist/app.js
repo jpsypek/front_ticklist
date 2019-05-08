@@ -9,7 +9,41 @@ const newClimbForm = document.querySelector('#new-climb-form')
 const newClimbContainer = document.querySelector('#new-climb-container')
 const editClimbContainer = document.querySelector('#edit-climb-container')
 const editClimbForm = document.querySelector('#edit-climb-form')
+const modal = document.querySelectorAll('.modal')
+const modalClose = document.querySelector('.modal-close')
 const store = {}
+
+function fillTabulator (climbs) {
+  const table = new Tabulator("#tabulator-table", {
+    data: climbs,           //load row data from array
+  	layout:"fitColumns",      //fit columns to width of table
+  	responsiveLayout:"hide",  //hide columns that dont fit on the table
+  	tooltips:true,            //show tool tips on cells
+  	addRowPos:"top",          //when adding a new row, add it to the top of the table
+  	history:true,             //allow undo and redo actions on the table
+  	pagination:"local",       //paginate the data
+  	paginationSize:10,         //allow 7 rows per page of data
+  	movableColumns:true,      //allow column order to be changed
+  	resizableRows:true,       //allow row order to be changed
+  	initialSort:[             //set the initial sort order of the data
+  		{column:"stars", dir:"desc"},
+    ],
+    columns:[                 //define the table columns
+  		{title:"Name", field:"name"},
+  		{title:"Sent?", field:"sent", width:100, formatter:"tickCross"},
+  		{title:"Your Rating", field:"user_rating", align:"left"},
+  		{title:"Guidebook Rating", field:"guide_rating", editor:"select", editorParams:{values:["male", "female"]}},
+  		{title:"Type", field:"climb_type", width:100, align:"center", editor:true},
+  		{title:"Stars", field:"stars", width:100,formatter:"star", editor:"input"},
+  		{title:"Pitches", field:"pitches", width:100, formatter:"number",align:"center"},
+  		{title:"Comments", field:"comments", align:"center", formatter:"textarea"},
+  		{title:"Link", field:"mp_link", align:"center", formatter:"link", formatterParams:{
+    label:"Mountain Project",
+    target:"_blank",
+}},
+  	],
+  });
+}
 
 // user sign in, finds user then fetches data from that specific user
 userForm.addEventListener('submit', function(event) {
@@ -25,7 +59,7 @@ userForm.addEventListener('submit', function(event) {
 })
 
 // get all users data
-function allUsers () {
+function allUsers() {
   return fetch('http://localhost:3000/api/v1/users/')
     .then(response => response.json())
     .then(users => users.data)
@@ -33,7 +67,7 @@ function allUsers () {
 }
 
 // returns found user from log in, otherwise displays error message
-function findUser (users, userName) {
+function findUser(users, userName) {
   const user = users.find(function(user) {
     return user.attributes.name === userName
   })
@@ -47,12 +81,13 @@ function findUser (users, userName) {
 }
 
 // fetch data from specific user
-function fetchUser (id) {
+function fetchUser(id) {
   return fetch(`http://localhost:3000/api/v1/users/${id}`)
     .then(response => response.json())
     .then(user => user.data)
     .then(climb => store.climbs = climb.attributes.climbs)
-    .then(() => populateClimbs(store.climbs))
+    // .then(() => populateClimbs(store.climbs))
+    .then(() => fillTabulator(store.climbs))
     .catch(error => console.error(error.message))
 }
 
@@ -61,12 +96,12 @@ function populateClimbs(climbs) {
   clearTable()
   climbHeader.id = ""
   orderedClimbs = orderClimbs(climbs)
-  orderedClimbs.forEach(function(climb){
+  orderedClimbs.forEach(function(climb) {
     appendTable(climb)
   })
 }
 
-function clearTable () {
+function clearTable() {
   while (tickedList.childNodes.length > 0) {
     tickedList.removeChild(tickedList.firstChild)
   }
@@ -76,10 +111,11 @@ function clearTable () {
 }
 
 function orderClimbs(climbs) {
-  return climbs.sort(function(a,b) {
+  return climbs.sort(function(a, b) {
     return b.stars - a.stars
   })
 }
+
 function appendTable(climb) {
   if (climb.sent.toString() == "true") {
     const sentDeleteBtn = document.createElement('button')
@@ -127,10 +163,11 @@ function appendTable(climb) {
 
 
 // when add new climb button is clicked, shows the new climb form
-function newClimbBtnEvent (id) {
-  newClimbBtn.addEventListener('click', function(event){
+function newClimbBtnEvent(id) {
+  newClimbBtn.addEventListener('click', function(event) {
     event.preventDefault()
     newClimbContainer.id = ""
+    newClimbContainer.scrollIntoView({behavior: "smooth"})
     editClimbContainer.id = "edit-climb-container"
     newClimbForm.reset()
     newClimbForm.id = ""
@@ -139,7 +176,7 @@ function newClimbBtnEvent (id) {
 }
 
 // then new climb form is submitted, appends row to table and calls post method
-function newClimbFormFunc (id) {
+function newClimbFormFunc(id) {
   newClimbForm.addEventListener('submit', function(event) {
     event.preventDefault()
     const formData = new FormData(event.target)
@@ -153,41 +190,42 @@ function newClimbFormFunc (id) {
 }
 
 // posts the new climb
-function postNewClimb (body, id) {
+function postNewClimb(body, id) {
   return fetch(`http://localhost:3000/api/v1/climbs/`, {
-    method: "POST",
-    headers: {
-    "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body)
-  })
-  .then(() => fetchUser(id))
-  .catch(error => (console.error(error.message)))
-}
-
-// hides the row and deletes the instance
-function deleteBtnEvent (row, btn, id) {
-  const body = {
-    id: id
-  }
-  btn.addEventListener('click', function () {
-    row.className = "row-hide"
-    return fetch(`http://localhost:3000/api/v1/climbs/${id}`, {
-      method: "DELETE",
+      method: "POST",
       headers: {
-      "Content-Type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(body)
     })
+    .then(() => fetchUser(id))
     .catch(error => (console.error(error.message)))
+}
+
+// hides the row and deletes the instance
+function deleteBtnEvent(row, btn, id) {
+  const body = {
+    id: id
+  }
+  btn.addEventListener('click', function() {
+    row.className = "row-hide"
+    return fetch(`http://localhost:3000/api/v1/climbs/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body)
+      })
+      .catch(error => (console.error(error.message)))
   })
 }
 
 //triggers event listenter for edit button to show edit form, prepopulates with previous values
-function editBtnEvent (btn, climb) {
+function editBtnEvent(btn, climb) {
   btn.addEventListener('click', function(event) {
     editClimbContainer.id = ""
     newClimbContainer.id = "new-climb-container"
+    editClimbContainer.scrollIntoView({behavior: "smooth"})
     editClimbForm.id.value = climb.id
     editClimbForm.user_id.value = climb.user_id
     editClimbForm.name.value = climb.name
@@ -214,8 +252,8 @@ editClimbForm.addEventListener('submit', function(event) {
 })
 
 
-function updateStore (body, user_id) {
-console.log(body)
+function updateStore(body, user_id) {
+  console.log(body)
   const newStoreClimbs = store.climbs.filter(climb => climb.id != body.id)
   store.climbs = newStoreClimbs
   store.climbs.push(body)
@@ -225,14 +263,14 @@ console.log(body)
 
 function editClimbPut(body, user_id) {
   return fetch(`http://localhost:3000/api/v1/climbs/${body.id}`, {
-    method: "PATCH",
-    headers: {
-    "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body)
-  })
-  .then(() => fetchUser(user_id))
-  .catch(error => (console.error(error.message)))
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body)
+    })
+    .then(() => fetchUser(user_id))
+    .catch(error => (console.error(error.message)))
 }
 
 function createBody(formData) {
