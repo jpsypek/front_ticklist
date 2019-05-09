@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ticklist</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
-  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script> -->
   <link href="https://unpkg.com/tabulator-tables@4.2.7/dist/css/tabulator.min.css" rel="stylesheet">
   <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.2.7/dist/js/tabulator.min.js"></script>
 </head>
@@ -30,7 +30,7 @@
       <!-- show ticked climbs -->
       <div class="ticked-table">
         <h2 id="ticked-header">Ticked Climbs</h2>
-        <!-- <table class="table">
+        <table border = 1 class="table">
           <thead>
             <th>Name</th>
             <th>Your Rating</th>
@@ -46,12 +46,12 @@
           <tbody id="ticked-list">
 
           </tbody>
-        </table> -->
+        </table>
       </div>
       <!-- Show unticked climbs -->
       <div class="unticked-table">
         <h2 id="ticked-header">Unticked Climbs</h2>
-        <!-- <table class="table">
+        <table border = 1 class="table">
           <thead>
             <th>Name</th>
             <th>Guidebook Rating</th>
@@ -64,7 +64,7 @@
           <tbody id="unticked-list">
 
           </tbody>
-        </table> -->
+        </table>
       </div>
     </section>
   </section>
@@ -161,7 +161,7 @@
       <div class="control">
         <div class="select is-small">
       <select name="stars">
-        <option value=""></option>
+        <option value="0"></option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>

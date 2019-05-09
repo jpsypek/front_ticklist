@@ -1,15 +1,14 @@
 * {
   box-sizing: border-box;
 }
-html {
-  background-color: rgba(100, 180, 180, 0.4);
-}
+
 body {
   background-color: rgba(100, 180, 180, 0.4);
   height: 100vh;
 }
 
 h1 {
+  padding: 5px;
   font-style: italic;
   text-align: center;
 }
@@ -20,7 +19,7 @@ h1 {
 
 	position: absolute;
 	top:0;
-	bottom: 70%;
+	bottom: 60%;
 	left: 0;
 	right: 0;
 	margin: auto;
@@ -29,8 +28,7 @@ h1 {
 
 #search-user-btn {
   text-align: center;
-  position: relative;
-  right: 20%;
+  position: inherit;
 }
 
 .add-climb-btn {
@@ -60,6 +58,10 @@ h1 {
 	right: 0;
 	margin: auto;
   text-align: center
+}
+
+.table {
+  border: 1;
 }
 
 #ticked-header {

@@ -13,37 +13,40 @@ const modal = document.querySelectorAll('.modal')
 const modalClose = document.querySelector('.modal-close')
 const store = {}
 
-function fillTabulator (climbs) {
-  const table = new Tabulator("#tabulator-table", {
-    data: climbs,           //load row data from array
-  	layout:"fitColumns",      //fit columns to width of table
-  	responsiveLayout:"hide",  //hide columns that dont fit on the table
-  	tooltips:true,            //show tool tips on cells
-  	addRowPos:"top",          //when adding a new row, add it to the top of the table
-  	history:true,             //allow undo and redo actions on the table
-  	pagination:"local",       //paginate the data
-  	paginationSize:10,         //allow 7 rows per page of data
-  	movableColumns:true,      //allow column order to be changed
-  	resizableRows:true,       //allow row order to be changed
-  	initialSort:[             //set the initial sort order of the data
-  		{column:"stars", dir:"desc"},
-    ],
-    columns:[                 //define the table columns
-  		{title:"Name", field:"name"},
-  		{title:"Sent?", field:"sent", width:100, formatter:"tickCross"},
-  		{title:"Your Rating", field:"user_rating", align:"left"},
-  		{title:"Guidebook Rating", field:"guide_rating", editor:"select", editorParams:{values:["male", "female"]}},
-  		{title:"Type", field:"climb_type", width:100, align:"center", editor:true},
-  		{title:"Stars", field:"stars", width:100,formatter:"star", editor:"input"},
-  		{title:"Pitches", field:"pitches", width:100, formatter:"number",align:"center"},
-  		{title:"Comments", field:"comments", align:"center", formatter:"textarea"},
-  		{title:"Link", field:"mp_link", align:"center", formatter:"link", formatterParams:{
-    label:"Mountain Project",
-    target:"_blank",
-}},
-  	],
-  });
-}
+// function fillTabulator (climbs) {
+//   const table = new Tabulator("#tabulator-table", {
+//     data: climbs,           //load row data from array
+//   	layout:"fitColumns",      //fit columns to width of table
+//   	responsiveLayout:"hide",  //hide columns that dont fit on the table
+//   	tooltips:true,            //show tool tips on cells
+//   	addRowPos:"top",          //when adding a new row, add it to the top of the table
+//   	history:true,             //allow undo and redo actions on the table
+//   	pagination:"local",       //paginate the data
+//   	paginationSize:10,         //allow 7 rows per page of data
+//   	movableColumns:true,      //allow column order to be changed
+//   	resizableRows:true,       //allow row order to be changed
+//   	initialSort:[             //set the initial sort order of the data
+//   		{column:"stars", dir:"desc"},
+//       {column:"sent", dir:"desc"}
+//     ],
+//     columns:[                 //define the table columns
+//   		{title:"Name", field:"name"},
+//   		{title:"Sent?", field:"sent", width:100, formatter:"tickCross"},
+//   		{title:"Your Rating", width:150,field:"user_rating", align:"left"},
+//   		{title:"Guidebook Rating", field:"guide_rating", editor:"select", editorParams:{values:["male", "female"]}},
+//   		{title:"Type", field:"climb_type", width:100, align:"center", editor:true},
+//   		{title:"Stars", field:"stars", width:100,formatter:"star", editor:"input", allowEmpty: true},
+//   		{title:"Pitches", field:"pitches", width:100,align:"center"},
+//   		{title:"Comments", field:"comments", align:"center", formatter:"textarea"},
+//   		{title:"Link", field:"mp_link", align:"center", formatter:"link", formatterParams:{
+//           label:"Mountain Project",
+//           target:"_blank",
+//       }},
+//       {title:"Edit", field:"edit_btn", align:"center", formatter:"link"},
+//       {title:"Delete", field:"delete_btn", align:"center", formatter:"link"}
+//   	],
+//   });
+// }
 
 // user sign in, finds user then fetches data from that specific user
 userForm.addEventListener('submit', function(event) {
@@ -86,8 +89,8 @@ function fetchUser(id) {
     .then(response => response.json())
     .then(user => user.data)
     .then(climb => store.climbs = climb.attributes.climbs)
-    // .then(() => populateClimbs(store.climbs))
-    .then(() => fillTabulator(store.climbs))
+    .then(() => populateClimbs(store.climbs))
+    // .then(() => fillTabulator(store.climbs))
     .catch(error => console.error(error.message))
 }
 
@@ -209,6 +212,7 @@ function deleteBtnEvent(row, btn, id) {
   }
   btn.addEventListener('click', function() {
     row.className = "row-hide"
+    editClimbContainer.id = "edit-climb-container"
     return fetch(`http://localhost:3000/api/v1/climbs/${id}`, {
         method: "DELETE",
         headers: {
