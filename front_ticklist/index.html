@@ -6,31 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ticklist</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
-  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script> -->
-  <link href="https://unpkg.com/tabulator-tables@4.2.7/dist/css/tabulator.min.css" rel="stylesheet">
-  <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.2.7/dist/js/tabulator.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
 </head>
 
 <body>
-  <h1 class="title is-2">Welcome to the Ticklist</h1>
+  <h1>Welcome your Ticklist</h1>
   <div class="user-form field">
     <form>
       <input type="text" name="username" placeholder="Please enter your name.">
-      <input class="button is-primary" id="search-user=btn" type="submit" name="submit-btn" value="Search User">
+      <button id="search-user-btn" type="submit" name="submit-btn">Search User</button>
       <p id="user-error"></p>
     </form>
   </div>
-  <div class="add-climb-btn">
-    <button type="button" name="add-new" id="add-climb">Add a new climb.</button>
-  </div>
+
   <!-- show climbs -->
   <section id="climb-header">
-    <section id="climbs">
       <!-- show ticked climbs -->
-      <div class="ticked-table">
-        <h2 id="ticked-header">Ticked Climbs</h2>
-        <table border = 1 class="table">
+    <button class="accordion">Ticked Climbs</button>
+      <div class="ticked-table panel">
+        <!-- <h2 id="ticked-header">Ticked Climbs</h2> -->
+        <table class="table">
           <thead>
             <th>Name</th>
             <th>Your Rating</th>
@@ -49,9 +44,10 @@
         </table>
       </div>
       <!-- Show unticked climbs -->
-      <div class="unticked-table">
-        <h2 id="ticked-header">Unticked Climbs</h2>
-        <table border = 1 class="table">
+    <button class="accordion">Unticked Climbs</button>
+      <div class="unticked-table panel">
+        <!-- <h2 id="unticked-header">Unticked Climbs</h2> -->
+        <table class="table">
           <thead>
             <th>Name</th>
             <th>Guidebook Rating</th>
@@ -66,20 +62,20 @@
           </tbody>
         </table>
       </div>
-    </section>
   </section>
 
   <div id="tabulator-table"></div>
 
+  <div class="add-climb-btn">
+    <button type="button" name="add-new" id="add-climb">Add a new climb.</button>
+  </div>
 
   <!-- new climb form -->
   <div id="new-climb-container">
-    <form class="modal-card" id="new-climb-form">
+    <form id="new-climb-form">
       <label class="label" for="name">Name</label>
-      <input type="text" name="name">
+      <input type="text" name="name" placeholder="Climb name...">
       <label class="label" for="user_rating">Your Rating</label>
-      <div class="control">
-        <div class="select is-small">
       <select name="user_rating">
         <option value="5.4">5.4</option>
         <option value="5.5">5.5</option>
@@ -110,11 +106,7 @@
         <option value="5.15a">5.15a</option>
         <option value="5.15b">5.15b</option>
       </select>
-    </div>
-    </div>
       <label for="guide_rating">Guidebook Rating</label>
-      <div class="control">
-        <div class="select is-small">
       <select name="guide_rating">
         <option value="5.4">5.4</option>
         <option value="5.5">5.5</option>
@@ -145,8 +137,6 @@
         <option value="5.15a">5.15a</option>
         <option value="5.15b">5.15b</option>
       </select>
-    </div>
-    </div>
       <label for="climb_type">Type</label>
       <div class="control">
         <div class="select is-small">
@@ -173,9 +163,9 @@
       <label for="pitches">Number of Pitches</label>
       <input type="number" name="pitches" value="1">
       <label for="comments">Comments</label>
-      <input type="textarea" name="comments">
+      <textarea type="textarea" name="comments" placeholder="Your comments..."></textarea>
       <label for="mp_link">Link</label>
-      <input type="text" name="mp_link">
+      <input type="text" name="mp_link" placeholder="Enter the Mountain Project link">
       <label for="sent">Sent?</label>
       <div class="control">
         <div class="select is-small">
@@ -185,13 +175,13 @@
       </select>
     </div>
     </div>
-      <input class="button is-primary" type="submit" name="add-climb" value="Add New Climb">
+      <button class="form-btn button" type="submit" name="add-climb">Add New Climb</button>
     </form>
+    <button class="close-new-form-btn button" type="submit" name="close_new_climb">Close Form</button>
   </div>
-
   <!-- edit climb form -->
   <div id="edit-climb-container">
-    <form class="modal-card" id="edit-climb-form">
+    <form id="edit-climb-form">
       <input class="input" type="hidden" name="id">
       <input type="hidden" name="user_id">
       <label class="label" for="name">Name</label>
@@ -291,7 +281,7 @@
       <label for="pitches">Number of Pitches</label>
       <input type="number" name="pitches" value="1">
       <label for="comments">Comments</label>
-        <input class="textarea is-small" rows="5" name="comments">
+        <textarea class="textarea is-small" name="comments"></textarea>
       <label for="mp_link">Link</label>
       <input type="text" name="mp_link">
       <label for="sent">Sent?</label>
@@ -304,9 +294,11 @@
         </div>
       </div>
       <div class="control">
-        <input class="button is-primary" type="submit" name="edit_climb" value="Edit">
+        <button class="form-btn button" type="submit" name="edit_climb">Edit</button>
+
       </div>
     </form>
+    <button class="close-edit-form-btn button" name="close_edit_climb">Close Form</button>
   </div>
 
   <script type="text/javascript" src="app.js">

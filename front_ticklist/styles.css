@@ -3,32 +3,41 @@
 }
 
 body {
-  background-color: rgba(100, 180, 180, 0.4);
+  background-color: rgba(0, 160, 200, 0.4);
   height: 100vh;
+  font-family: 'Titillium Web', sans-serif;
+  text-align: center;
 }
 
 h1 {
-  padding: 5px;
+  padding-top: 40px;
+  margin-bottom: 15px;
   font-style: italic;
   text-align: center;
 }
 
-.user-form {
-  width: 100px;
-	height: 100px;
-
-	position: absolute;
+.user-form{
+	position: relative;
 	top:0;
-	bottom: 60%;
+	bottom: 0;
 	left: 0;
 	right: 0;
-	margin: auto;
+	margin: 20px;
   text-align: center;
 }
+input[name="username"] {
+  width: 20%;
+}
 
-#search-user-btn {
+#user-error {
   text-align: center;
-  position: inherit;
+
+}
+
+
+
+button {
+  font-weight: bold;
 }
 
 .add-climb-btn {
@@ -36,56 +45,104 @@ h1 {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	margin: auto;
+	margin-bottom: 30px;
+	margin-top: 30px;
   text-align: center;
 }
 
-.unticked-table {
-  position: relative;
-  top:0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	margin: auto;
-  text-align: center
+
+
+/* Collapsing tables */
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: center;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 18px;
 }
 
-.ticked-table {
-  position: relative;
-  top:0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	margin: auto;
-  text-align: center
+.active, .accordion:hover {
+  background-color: #ccc;
 }
 
-.table {
-  border: 1;
+.panel {
+  padding: 0 18px;
+  background-color: rgba(0, 0, 0, .1);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out;
 }
+
+table {
+  position: relative;
+  margin: 30px 0 30px 0;
+  text-align: center;
+  border: 1px solid black;
+  width: 100%;
+}
+
+th {
+  background-color: rgba(80, 60, 100, 0.5);
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  color: white;
+}
+th, td {
+  /* border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black; */
+  padding: 4px;
+  text-align: center;
+}
+
+td {
+  background-color: rgba(0, 160, 200, 0.1);
+}
+
+tr:hover {
+  background-color: rgba(0, 160, 200, 0.5);
+}
+
 
 #ticked-header {
   position: relative;
-  text-align: left;
+  text-align: center;
   font-weight: bold;
 }
 #unticked-header {
   position: relative;
-  text-align: left;
+  text-align: center;
+  font-weight: bold;
 }
 
 #new-climb-form {
   position: absolute;
   text-align: center;
+  display: inline-block;
+}
+
+#new-climb-container {
+  position: relative;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
 }
 
 #climb-header {
   display: none;
 }
 
-#new-climb-container {
-  display: none;
-}
 #edit-climb-container {
   display: none;
 }
@@ -98,4 +155,24 @@ h1 {
 
 .row-hide {
   display: none;
+}
+
+input, textarea, select{
+  width: 30%;
+  padding: 3px;
+  border: 1px solid black;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+
+label {
+  padding: 4px 4px 4px 0;
+  display: block;
+  text-align: center;
+}
+
+.close-new-form-btn, .close-edit-form-btn {
+  margin-bottom: 30px;
 }

@@ -9,46 +9,12 @@ const newClimbForm = document.querySelector('#new-climb-form')
 const newClimbContainer = document.querySelector('#new-climb-container')
 const editClimbContainer = document.querySelector('#edit-climb-container')
 const editClimbForm = document.querySelector('#edit-climb-form')
-const modal = document.querySelectorAll('.modal')
-const modalClose = document.querySelector('.modal-close')
+const accordions = document.querySelectorAll('.accordion')
+const closeEditForm = document.querySelector('.close-edit-form-btn')
+const closeNewForm = document.querySelector('.close-new-form-btn')
 const store = {}
 
-// function fillTabulator (climbs) {
-//   const table = new Tabulator("#tabulator-table", {
-//     data: climbs,           //load row data from array
-//   	layout:"fitColumns",      //fit columns to width of table
-//   	responsiveLayout:"hide",  //hide columns that dont fit on the table
-//   	tooltips:true,            //show tool tips on cells
-//   	addRowPos:"top",          //when adding a new row, add it to the top of the table
-//   	history:true,             //allow undo and redo actions on the table
-//   	pagination:"local",       //paginate the data
-//   	paginationSize:10,         //allow 7 rows per page of data
-//   	movableColumns:true,      //allow column order to be changed
-//   	resizableRows:true,       //allow row order to be changed
-//   	initialSort:[             //set the initial sort order of the data
-//   		{column:"stars", dir:"desc"},
-//       {column:"sent", dir:"desc"}
-//     ],
-//     columns:[                 //define the table columns
-//   		{title:"Name", field:"name"},
-//   		{title:"Sent?", field:"sent", width:100, formatter:"tickCross"},
-//   		{title:"Your Rating", width:150,field:"user_rating", align:"left"},
-//   		{title:"Guidebook Rating", field:"guide_rating", editor:"select", editorParams:{values:["male", "female"]}},
-//   		{title:"Type", field:"climb_type", width:100, align:"center", editor:true},
-//   		{title:"Stars", field:"stars", width:100,formatter:"star", editor:"input", allowEmpty: true},
-//   		{title:"Pitches", field:"pitches", width:100,align:"center"},
-//   		{title:"Comments", field:"comments", align:"center", formatter:"textarea"},
-//   		{title:"Link", field:"mp_link", align:"center", formatter:"link", formatterParams:{
-//           label:"Mountain Project",
-//           target:"_blank",
-//       }},
-//       {title:"Edit", field:"edit_btn", align:"center", formatter:"link"},
-//       {title:"Delete", field:"delete_btn", align:"center", formatter:"link"}
-//   	],
-//   });
-// }
-
-// user sign in, finds user then fetches data from that specific user
+// user sign in, fetches all users to see if user exists. If so, fetch the data of that user
 userForm.addEventListener('submit', function(event) {
   event.preventDefault()
   const formData = new FormData(event.target)
@@ -61,18 +27,17 @@ userForm.addEventListener('submit', function(event) {
     })
 })
 
-// get all users data
+// get all users
 function allUsers() {
   return fetch('http://localhost:3000/api/v1/users/')
     .then(response => response.json())
-    .then(users => users.data)
     .catch(error => console.error(error.message))
 }
 
 // returns found user from log in, otherwise displays error message
 function findUser(users, userName) {
   const user = users.find(function(user) {
-    return user.attributes.name === userName
+    return user.name === userName
   })
   if (user) {
     userForm.id = "user-form-submit"
@@ -83,7 +48,7 @@ function findUser(users, userName) {
   }
 }
 
-// fetch data from specific user
+// fetch data from specific user, then populates the climbs tables
 function fetchUser(id) {
   return fetch(`http://localhost:3000/api/v1/users/${id}`)
     .then(response => response.json())
@@ -104,6 +69,7 @@ function populateClimbs(climbs) {
   })
 }
 
+// clears all data from the table
 function clearTable() {
   while (tickedList.childNodes.length > 0) {
     tickedList.removeChild(tickedList.firstChild)
@@ -113,12 +79,14 @@ function clearTable() {
   }
 }
 
+// orders the climbs based on the number of stars provided by the user
 function orderClimbs(climbs) {
   return climbs.sort(function(a, b) {
     return b.stars - a.stars
   })
 }
 
+// appends a row to the appropriate table based whether or not it has been sent
 function appendTable(climb) {
   if (climb.sent.toString() == "true") {
     const sentDeleteBtn = document.createElement('button')
@@ -178,17 +146,17 @@ function newClimbBtnEvent(id) {
   newClimbFormFunc(id)
 }
 
-// then new climb form is submitted, appends row to table and calls post method
+// when new climb form is submitted, adds the climb to the store, populates the table, and calls post method
 function newClimbFormFunc(id) {
   newClimbForm.addEventListener('submit', function(event) {
     event.preventDefault()
     const formData = new FormData(event.target)
     let body = createBody(formData)
     body.user_id = id
-    postNewClimb(body, id)
     newClimbContainer.id = 'new-climb-container'
     store.climbs.push(body)
     populateClimbs(store.climbs)
+    postNewClimb(body, id)
   })
 }
 
@@ -205,7 +173,7 @@ function postNewClimb(body, id) {
     .catch(error => (console.error(error.message)))
 }
 
-// hides the row and deletes the instance
+// hides the row and deletes the instance from the db
 function deleteBtnEvent(row, btn, id) {
   const body = {
     id: id
@@ -244,7 +212,7 @@ function editBtnEvent(btn, climb) {
   })
 }
 
-
+// listens for edit form to be submitted, triggers an update of the store and patch
 editClimbForm.addEventListener('submit', function(event) {
   event.preventDefault()
   const formData = new FormData(event.target)
@@ -255,17 +223,17 @@ editClimbForm.addEventListener('submit', function(event) {
   editClimbContainer.id = "edit-climb-container"
 })
 
-
+// updates the store with the updated information
 function updateStore(body, user_id) {
   console.log(body)
   const newStoreClimbs = store.climbs.filter(climb => climb.id != body.id)
   store.climbs = newStoreClimbs
   store.climbs.push(body)
   populateClimbs(store.climbs)
-  editClimbPut(body, user_id)
+  editClimbPatch(body, user_id)
 }
 
-function editClimbPut(body, user_id) {
+function editClimbPatch(body, user_id) {
   return fetch(`http://localhost:3000/api/v1/climbs/${body.id}`, {
       method: "PATCH",
       headers: {
@@ -291,3 +259,22 @@ function createBody(formData) {
   }
   return body
 }
+
+closeEditForm.addEventListener('click', function() {
+  editClimbContainer.id = "edit-climb-container"
+})
+closeNewForm.addEventListener('click', function() {
+  newClimbContainer.id = "new-climb-container"
+})
+
+accordions.forEach(function(accordion) {
+  accordion.addEventListener("click", function() {
+    event.target.classList.toggle("active");
+    const panel = this.nextElementSibling;
+    if (panel.style.maxHeight){
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  })
+})
