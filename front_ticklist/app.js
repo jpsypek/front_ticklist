@@ -11,6 +11,7 @@ const editClimbContainer = document.querySelector('#edit-climb-container')
 const editClimbForm = document.querySelector('#edit-climb-form')
 const accordions = document.querySelectorAll('.accordion')
 const closeEditForm = document.querySelector('.close-edit-form-btn')
+const topPage = document.querySelector('.top')
 const closeNewForm = document.querySelector('.close-new-form-btn')
 const store = {}
 
@@ -225,7 +226,6 @@ editClimbForm.addEventListener('submit', function(event) {
 
 // updates the store with the updated information
 function updateStore(body, user_id) {
-  console.log(body)
   const newStoreClimbs = store.climbs.filter(climb => climb.id != body.id)
   store.climbs = newStoreClimbs
   store.climbs.push(body)
@@ -233,6 +233,7 @@ function updateStore(body, user_id) {
   editClimbPatch(body, user_id)
 }
 
+// updates the db with a patch based on the edited form data
 function editClimbPatch(body, user_id) {
   return fetch(`http://localhost:3000/api/v1/climbs/${body.id}`, {
       method: "PATCH",
@@ -245,6 +246,7 @@ function editClimbPatch(body, user_id) {
     .catch(error => (console.error(error.message)))
 }
 
+// creates the body (for either the post or patch) based on
 function createBody(formData) {
   const body = {
     name: formData.get("name"),
@@ -260,13 +262,17 @@ function createBody(formData) {
   return body
 }
 
+// close the edit-climb form
 closeEditForm.addEventListener('click', function() {
   editClimbContainer.id = "edit-climb-container"
 })
+
+// close the new-climb form
 closeNewForm.addEventListener('click', function() {
   newClimbContainer.id = "new-climb-container"
 })
 
+// When the "accordion" is clicked, either display or hide the relevant table depending on whether it is currently being shown
 accordions.forEach(function(accordion) {
   accordion.addEventListener("click", function() {
     event.target.classList.toggle("active");

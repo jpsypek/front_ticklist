@@ -14,6 +14,7 @@ h1 {
   margin-bottom: 15px;
   font-style: italic;
   text-align: center;
+  font-family: 'Amaranth', sans-serif;
 }
 
 .user-form{
@@ -63,7 +64,7 @@ button {
   border: none;
   outline: none;
   transition: 0.4s;
-  font-family: 'Titillium Web', sans-serif;
+  font-family: 'Amaranth', sans-serif;
   font-size: 18px;
 }
 
@@ -81,7 +82,7 @@ button {
 
 table {
   position: relative;
-  margin: 30px 0 30px 0;
+  margin: 60px 0 60px 0;
   text-align: center;
   border: 1px solid black;
   width: 100%;
@@ -175,4 +176,9 @@ label {
 
 .close-new-form-btn, .close-edit-form-btn {
   margin-bottom: 30px;
+}
+
+footer {
+  position:fixed;
+  bottom:0;
 }
