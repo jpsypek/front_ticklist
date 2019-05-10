@@ -7,8 +7,7 @@ module Api
       end
 
       def show
-        @user = User.find(params[:id])
-        # includes(:climbs).order("climbs.stars desc").find
+        @user = User.includes(:climbs).order("climbs.stars desc").find(params[:id])
         render json: @user
       end
     end
