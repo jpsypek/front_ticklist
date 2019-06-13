@@ -14,7 +14,7 @@ The Ticklist is a single page application that allows users to keep track of the
 
 ## Wireframe
 
-![screenshot](Ticklist-Example.png)
+![screenshot](/Ticklist-Example.png)
 
 ## Video
 
