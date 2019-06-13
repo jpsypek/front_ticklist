@@ -37,6 +37,7 @@ function allUsers() {
 
 // returns found user from log in, otherwise displays error message
 function findUser(users, userName) {
+  // const user = users.find(user => user.name === userName)
   const user = users.find(function(user) {
     return user.name === userName
   })
